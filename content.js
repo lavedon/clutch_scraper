@@ -1,10 +1,23 @@
 var blocks;
 var webappUrl;
-
+var output;
+var companyName;
+var description;
+var phoneNumber;
+var emailContact;
+var numOfEmployees;
+var city;
+var profileUrl;
+var specialties;
 
 
 blocks = document.getElementsByClassName("provider-row");
 
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function scrape_results() {
 for (let i = 0; i < blocks.length; i++) {
     let tempCompanyName = blocks[i].getElementsByTagName("a")[1].innerText;
     let tempDescription = blocks[i].getElementsByTagName("p")[1].innerText;
@@ -22,7 +35,7 @@ for (let i = 0; i < blocks.length; i++) {
     let chartText = blocks[1].getElementsByClassName("chartAreaContainer")[0].innerHTML;
     let chartArray = chartText.match(/data-content="(.*?"/gm);
 //     let chartDataDirty = /data-content="(.*?)"/gm.(chartText);
-    let specialities = "";
+    specialities = "";
     for (let y = 0; y < chartArray.length; y++) {
         // Positive Lookbehind (?<=<i>)
         let newRatio = /(?<=<i>).+?(?=<\/i>)/.exec(chartArray[y]);
@@ -31,5 +44,23 @@ for (let i = 0; i < blocks.length; i++) {
         // newSpecialty[0] now equals the specialty we want
         specialities = specialities + newSpecialty[0] + ": " + newRatio[0] + ".  ";
     }
-}
 
+    companyName = "&co=" + tempCompanyName.replace(/&/g, "and");
+    description = "&des=" + tempDescription.replace(/&/g, "and");
+    phoneNumber = "&phone=" + tempPhoneNumber;
+    numOfEmployees = "&emp=" + tempNumOfEmployees;
+    city = "&cs=" + tempCity;
+    profileUrl = "&pro=" + profileUrl;
+    specialties = "&spe=" + specialties;
+
+    output = webappUrl+"?"+companyName+city+numOfEmployees+description+specialties+phoneNumber+emailContact+profileUrl; 
+
+	try {
+		chrome.runtime.sendMessage({ message: output });
+		} catch(err) {
+		console.log(err);
+		}
+
+
+	}
+}

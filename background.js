@@ -1,11 +1,11 @@
 chrome.runtime.onInstalled.addListener(function() {
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-        console.log("Check if on ReferenceUSA");
+        console.log("Check if on Clutch.co");
         chrome.declarativeContent.onPageChanged.addRules([
             {
                 conditions: [
                     new chrome.declarativeContent.PageStateMatcher({
-                        pageUrl: { urlContains: 'referenceusa.com/' },
+                        pageUrl: { urlContains: 'clutch.co' },
                     })
                 ],
                 // And shows the extension's page action.
@@ -16,8 +16,8 @@ chrome.runtime.onInstalled.addListener(function() {
 });
 
 var contextMenuItem = {
-    "id": "grabTable",
-    "title": "Grab Table",
+    "id": "grabResults",
+    "title": "Grab Results",
     "contexts": ["all"]
 };
 
@@ -33,7 +33,7 @@ function scrape_it() {
 
 
 chrome.contextMenus.onClicked.addListener(function(clickData){
-    if (clickData.menuItemId == "grabTable") {
+    if (clickData.menuItemId == "grabResults") {
             scrape_it();
         } 
         });
