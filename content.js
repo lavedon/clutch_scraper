@@ -12,7 +12,7 @@ var specialties;
 
 
 document.body.style = "background: #f00";
-webappUrl = "https://script.google.com/macros/s/AKfycbxBtPROgI4HGkXiJW7fugiQFh95yd5ijRaembSdD4uMTw7TF4w/exec" 
+webappUrl = "https://script.google.com/macros/s/AKfycbxBtPROgI4HGkXiJW7fugiQFh95yd5ijRaembSdD4uMTw7TF4w/exec"
 blocks = document.getElementsByClassName("provider-row");
 
 function sleep(ms) {
@@ -27,10 +27,12 @@ for (let i = 0; i < blocks.length; i++) {
     let tempCompanyName = blocks[i].getElementsByTagName("a")[1].innerText;
     let companyName = "&co=" + tempCompanyName.replace(/&/g, "and");
 
-    let tempTagLine = blocks[i].getElementsByClassName("tagline");
-    
+    let tempTagLine = blocks[i].getElementsByClassName("tagline")[0].innerText;
+    let tagLine = "&tag=" + tempTagLine.replace(/&/g, "and"); 
+    console.log("Tag line is: " + tagLine);
 
-    output = encodeURI(webappUrl+"?"+companyName);
+    
+    output = encodeURI(webappUrl+"?"+companyName + tagLine);
     await sleep(1000);
         
     console.log("output is " + output);
