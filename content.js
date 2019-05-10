@@ -29,11 +29,17 @@ for (let i = 0; i < blocks.length; i++) {
 
     let tempTagLine = blocks[i].getElementsByClassName("tagline")[0].innerText;
     let tagLine = "&tag=" + tempTagLine.replace(/&/g, "and"); 
-    console.log("Tag line is: " + tagLine);
+
+    let tempCompanyProfileURL = blocks[i].querySelector("a").getAttribute("href");
+    console.log("Profile URL is: " + tempCompanyProfileURL); 
+    let companyProfileURL = "&profile=" + tempCompanyProfileURL;
+
+    let tempCompanyWebsite = blocks[i].getElementsByClassName("website-link website-link-a")[0].innerHTML.match(/href=".+?(?=\?)/)[0];
+    let companyWebsite = "&web=" + tempCompanyWebsite;
 
     
-    output = encodeURI(webappUrl+"?"+companyName + tagLine);
-    await sleep(1000);
+    output = encodeURI(webappUrl + "?" + companyName + tagLine + companyProfileURL + companyWebsite);
+    await sleep(2500);
         
     console.log("output is " + output);
     } catch(e) {
